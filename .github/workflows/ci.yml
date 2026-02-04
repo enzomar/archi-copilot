@@ -1,0 +1,94 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Compile TypeScript
+        run: npm run compile
+
+      - name: Run linter
+        run: npm run lint
+        continue-on-error: true
+
+      - name: Run tests
+        run: npm test
+
+      - name: Check extension package
+        run: |
+          npm install -g @vscode/vsce
+          vsce package --no-dependencies
+          
+      - name: Upload VSIX artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: archi-copilot-${{ matrix.node-version }}.vsix
+          path: "*.vsix"
+          retention-days: 30
+
+  validate-memory:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate architecture_memory structure
+        run: |
+          echo "Checking required directories..."
+          test -d architecture_memory/organization || (echo "Missing organization folder" && exit 1)
+          test -d architecture_memory/projects || (echo "Missing projects folder" && exit 1)
+          
+          echo "Checking organization files..."
+          test -f architecture_memory/organization/principles.md || echo "Warning: Missing principles.md"
+          test -f architecture_memory/organization/standards.md || echo "Warning: Missing standards.md"
+          test -f architecture_memory/organization/glossary.md || echo "Warning: Missing glossary.md"
+          test -f architecture_memory/organization/governance.md || echo "Warning: Missing governance.md"
+          
+          echo "Checking for at least one project..."
+          PROJECT_COUNT=$(ls -d architecture_memory/projects/*/ 2>/dev/null | wc -l)
+          if [ "$PROJECT_COUNT" -eq 0 ]; then
+            echo "Warning: No projects found in architecture_memory/projects/"
+          else
+            echo "Found $PROJECT_COUNT project(s)"
+          fi
+          
+          echo "✅ Architecture memory structure validated"
+
+  markdown-lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Lint Markdown files
+        uses: DavidAnson/markdownlint-cli2-action@v16
+        with:
+          globs: |
+            README.md
+            architecture_memory/**/*.md
+        continue-on-error: true

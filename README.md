@@ -89,41 +89,121 @@ Three ways to open it:
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Installation Guide
 
-### 1. Install Dependencies
+### Prerequisites
+
+Before installing Archi Copilot, make sure you have:
+
+| Requirement | Version | How to Check |
+|-------------|---------|-------------|
+| **VS Code** | 1.90.0+ | `code --version` |
+| **Node.js** | 18.x+ | `node --version` |
+| **npm** | 9.x+ | `npm --version` |
+| **GitHub Copilot** | Active subscription | Check VS Code extensions |
+| **GitHub Copilot Chat** | Installed | Check VS Code extensions |
+
+> ⚠️ **Important:** You must have an active GitHub Copilot subscription with Chat enabled. This extension uses Copilot's language model - no separate API keys needed!
+
+### Step 1: Clone the Repository
 
 ```bash
+git clone https://github.com/vmarafioti/archi-copilot.git
 cd archi-copilot
+```
+
+### Step 2: Install Dependencies
+
+```bash
 npm install
+```
+
+This will install all required packages including TypeScript and VS Code extension tools.
+
+### Step 3: Compile the Extension
+
+```bash
 npm run compile
 ```
 
-### 2. Run the Extension
+You should see no errors. If you do, make sure Node.js 18+ is installed.
 
-**Option A: Using VS Code**
-Press **F5** in VS Code to launch Extension Development Host
+### Step 4: Launch the Extension
 
-**Option B: From Command Line**
+**Option A: From VS Code (Recommended for Development)**
+1. Open the `archi-copilot` folder in VS Code
+2. Press `F5` to launch Extension Development Host
+3. A new VS Code window will open with the extension loaded
+
+**Option B: Package and Install (For Regular Use)**
 ```bash
-code --extensionDevelopmentPath=/path/to/archi-copilot
+# Install the packaging tool
+npm install -g @vscode/vsce
+
+# Create the VSIX package
+vsce package
+
+# Install in VS Code
+code --install-extension archi-copilot-1.0.0.vsix
 ```
 
-### 3. Use Archi Copilot
+### Step 5: Verify Installation
 
-1. Open **Copilot Chat** panel (click the chat icon or `Ctrl+Shift+I` / `Cmd+Shift+I`)
-2. Type `@archi` followed by your question
-3. Use slash commands for specialized modes: `@archi /decision Should we use Kafka?`
+1. Open the **Copilot Chat** panel:
+   - Click the chat icon in the sidebar, OR
+   - Press `Cmd+Shift+I` (Mac) / `Ctrl+Shift+I` (Windows/Linux)
+2. Type `@archi` - you should see it autocomplete
+3. Try: `@archi /projects` to list available projects
 
-**Examples:**
-- `@archi What's the best approach for our API versioning strategy?`
-- `@archi /decision Should we use PostgreSQL or MongoDB for our new service?`
-- `@archi /adr We decided to adopt event-driven architecture because...`
-- `@archi /review Review our proposal to migrate to Kubernetes`
+### Step 6: Set Up Your First Project
+
+1. Open Admin Dashboard: `@archi /admin`
+2. Create a new project or edit the sample project
+3. Fill in your project context (stakeholders, constraints, tech stack)
+4. Start asking architecture questions!
+
+### Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| `@archi` not appearing | Reload VS Code window (`Cmd+Shift+P` → "Reload Window") |
+| Compile errors | Run `npm install` again, check Node.js version |
+| Chat not working | Verify GitHub Copilot Chat is installed and signed in |
+| Empty responses | Check that `architecture_memory/` folder exists |
 
 ---
 
-## 🌐 Confluence Integration
+## � Quick Examples (Copy & Paste!)
+
+Try these in Copilot Chat right away:
+
+```
+@archi What are the key considerations for migrating from monolith to microservices?
+```
+
+```
+@archi /decision Should we build or buy an API gateway?
+```
+
+```
+@archi /risks What could go wrong with our cloud migration plan?
+```
+
+```
+@archi /review Our team wants to use MongoDB for everything. Review this approach.
+```
+
+```
+@archi /stakeholder How do I explain technical debt to a non-technical CEO?
+```
+
+```
+@archi /admin
+```
+
+---
+
+## �🌐 Confluence Integration
 
 Archi Copilot can read architecture documentation directly from Confluence! Configure it in VS Code settings:
 
@@ -265,98 +345,203 @@ When in interactive mode, you can:
 
 ---
 
-## 💡 Usage Examples
+## 💡 Usage Examples & Real-World Scenarios
 
-### Making a Technology Decision
+### 🟢 Scenario 1: Technology Decision
 
-```
-Mode: DECISION
-Question: Should we migrate from RabbitMQ to Kafka for our loyalty event streaming?
-```
-
-Response includes:
-- Clarifying questions
-- Options analysis
-- Pros/cons against your principles
-- Recommendation with rationale
-- Risks and mitigations
-- Concrete next steps
-
-### Generating an ADR
+**You're evaluating message brokers for your e-commerce platform:**
 
 ```
-Mode: ADR
-Question: We decided to adopt PostgreSQL as our primary database for the new loyalty 
-core platform, replacing the mixed Oracle/MySQL landscape, because we need consistency 
-across clients and better support for JSONB operations.
+@archi /decision Should we use Kafka or RabbitMQ for our order event streaming? 
+We expect 10K orders/day initially, growing to 100K in 2 years.
 ```
 
-Generates a complete ADR with:
+**Archi Copilot will:**
+- Ask clarifying questions about your constraints
+- Analyze both options against your architecture principles
+- Consider your team's skills (from context.md)
+- Provide a recommendation with clear rationale
+- List risks and mitigation strategies
+- Suggest concrete next steps
+
+---
+
+### 🟢 Scenario 2: Generate an ADR
+
+**Document a decision you've already made:**
+
+```
+@archi /adr We decided to use PostgreSQL instead of MongoDB for our product catalog 
+because we need ACID transactions for inventory management and our team has stronger 
+SQL skills. We considered MongoDB for its flexibility but decided consistency was more important.
+```
+
+**Archi Copilot generates a complete ADR with:**
+- Title and status
 - Context and problem statement
-- Decision and rationale
-- Consequences (positive/negative)
-- Alternatives considered
+- Decision with full rationale
+- Consequences (positive and negative)
+- Alternatives considered and why rejected
 
-### Stakeholder Communication
+---
 
-```
-Mode: STAKEHOLDER
-Question: I need to present the 18-month tech debt reduction plan to the CFO who 
-is skeptical about the investment.
-```
+### 🟢 Scenario 3: Review a Proposal
 
-Response includes:
-- Audience analysis
-- Key messages (business-focused)
-- Anticipated objections
-- Response strategies
-- Draft communication outline
-
-### Analyzing Tech Debt
+**Get critical feedback on architecture decisions:**
 
 ```
-Mode: TECHDEBT
-Question: Analyze the technical debt in our loyalty points calculation engine 
-that uses stored procedures and has no unit tests.
+@archi /review Our proposal is to migrate all 15 microservices to Kubernetes 
+in a single 3-month release. We'll do a big-bang cutover on a weekend.
 ```
 
-Response includes:
-- Debt categorization (code, architecture, infrastructure, documentation)
-- Impact assessment (business, velocity, risk)
-- Prioritization matrix with cost of delay vs cost to fix
-- Remediation strategy (quick wins, planned refactoring, major overhauls)
-- Tracking metrics
+**Archi Copilot will:**
+- Identify risks in your approach (big-bang migration!)
+- Challenge assumptions
+- Suggest alternatives (incremental migration)
+- Reference your risk register if relevant
+- Recommend risk mitigations
 
-### Managing Technical Backlog
+---
 
-```
-Mode: BACKLOG
-Question: We have these items: API versioning refactor, Oracle to PostgreSQL 
-migration, authentication upgrade to OAuth2, and client onboarding automation. 
-Help prioritize for Q2.
-```
+### 🟢 Scenario 4: Stakeholder Communication
 
-Response includes:
-- Item analysis with T-shirt sizing and business value
-- Dependencies mapping
-- WSJF prioritization scores
-- Sprint/quarter allocation recommendations
-- Acceptance criteria per item
-
-### Planning Milestones
+**Prepare for difficult conversations:**
 
 ```
-Mode: MILESTONE
-Question: Define the Q2 milestone for consolidating the first 5 airline clients 
-onto the new shared platform.
+@archi /stakeholder I need to convince our CFO to approve $500K for tech debt 
+reduction. She's skeptical about ROI and thinks we should focus on new features.
 ```
 
-Response includes:
-- Milestone definition with success criteria
-- Scope analysis (in/out of scope)
-- Work breakdown with effort estimates
-- Risk assessment and mitigation plans
-- Go/No-Go criteria
+**Archi Copilot provides:**
+- CFO-focused messaging (cost savings, risk reduction, velocity)
+- Anticipated objections and rebuttals
+- ROI calculations approach
+- Comparison: cost of doing nothing vs investing
+- Draft talking points
+
+---
+
+### 🟢 Scenario 5: Risk Assessment
+
+**Identify risks you might have missed:**
+
+```
+@archi /risks We're planning to migrate from on-premise Oracle to AWS Aurora 
+PostgreSQL. The migration will happen over 6 months while both systems run in parallel.
+```
+
+**Archi Copilot identifies:**
+- Data consistency risks during parallel run
+- Stored procedure migration challenges
+- Team skill gaps
+- Rollback complexity
+- Cost overrun scenarios
+- Each with likelihood, impact, and mitigation
+
+---
+
+### 🟢 Scenario 6: Devil's Advocate
+
+**Challenge your own assumptions:**
+
+```
+@archi /challenge We believe microservices will solve all our scaling problems 
+and the migration will pay for itself in 12 months.
+```
+
+**Archi Copilot challenges:**
+- "What evidence supports the 12-month payback?"
+- "Have you accounted for operational complexity?"
+- "What if your scaling problems are actually database-related?"
+- Provides counter-arguments and alternative perspectives
+
+---
+
+### 🟢 Scenario 7: Tech Debt Analysis
+
+**Prioritize technical debt remediation:**
+
+```
+@archi /techdebt Our payment service has: no unit tests, hardcoded config values, 
+a 5000-line God class, and uses a deprecated encryption library.
+```
+
+**Archi Copilot provides:**
+- Categorization (code, security, testing, architecture)
+- Risk assessment for each item
+- Prioritization matrix (quick wins vs major efforts)
+- Recommended remediation sequence
+- Effort estimates
+
+---
+
+### 🟢 Scenario 8: Sprint/Quarter Planning
+
+**Prioritize your architecture backlog:**
+
+```
+@archi /backlog We have these items for Q2:
+1. API gateway implementation
+2. Database connection pooling optimization  
+3. OAuth2 migration from legacy auth
+4. Observability stack (logging, metrics, tracing)
+5. CI/CD pipeline improvements
+Help me prioritize.
+```
+
+**Archi Copilot provides:**
+- T-shirt sizing for each item
+- Business value assessment
+- Dependencies between items
+- WSJF scores
+- Recommended sequence
+- "What fits in Q2" analysis
+
+---
+
+### 🟢 Scenario 9: Milestone Planning
+
+**Define clear milestones with success criteria:**
+
+```
+@archi /milestone Define the "API Gateway Live" milestone. We need to route 
+30% of traffic through the new gateway by end of Q2.
+```
+
+**Archi Copilot provides:**
+- Clear milestone definition
+- Success criteria (measurable)
+- In-scope / out-of-scope items
+- Work breakdown structure
+- Risk factors
+- Go/No-Go checklist
+
+---
+
+### 🟢 Scenario 10: General Architecture Questions
+
+**Just ask anything architecture-related:**
+
+```
+@archi What's the best approach for handling eventual consistency 
+in our order management system?
+```
+
+```
+@archi How should we structure our API versioning strategy 
+for our public REST APIs?
+```
+
+```
+@archi What are the tradeoffs between CQRS and traditional 
+CRUD for our reporting use cases?
+```
+
+**Archi Copilot will answer in context of your:**
+- Architecture principles
+- Tech standards
+- Current constraints
+- Team capabilities
 
 ---
 
@@ -405,20 +590,68 @@ This creates `archi-copilot-1.0.0.vsix` which can be installed in any VS Code.
 
 ## ❓ FAQ
 
+### General
+
 **Q: Do I need an OpenAI API key?**  
-A: No! This extension uses GitHub Copilot's built-in language model.
+A: No! This extension uses GitHub Copilot's built-in language model. No separate API keys or subscriptions required.
 
 **Q: What GitHub Copilot plan do I need?**  
-A: Any GitHub Copilot plan that includes chat functionality.
+A: Any GitHub Copilot plan that includes Chat functionality (Individual, Business, or Enterprise).
 
 **Q: Where are saved decisions stored?**  
-A: In `architecture_memory/decisions/` in your workspace.
+A: In `architecture_memory/decisions/` in your workspace as markdown files.
 
 **Q: Can I use this with multiple projects?**  
-A: Yes! Copy the `architecture_memory/` folder to each project and customize.
+A: Yes! Create folders under `architecture_memory/projects/` for each project and switch between them using `@archi /project <name>`.
 
 **Q: How do I improve response quality?**  
-A: Fill out the `architecture_memory/static/` files with detailed organizational context.
+A: Fill out the `architecture_memory/` files with detailed organizational context - principles, constraints, stakeholders, tech stack. The more context you provide, the better the responses!
+
+### LLM & Model Selection
+
+**Q: How do I select which AI model to use?**  
+A: The model is managed by GitHub Copilot based on your subscription - you don't select it directly. The extension uses `vscode.lm.selectChatModels()` API which returns available models from the `copilot` family. GitHub determines which model (GPT-4 class) to serve based on your license tier.
+
+**Q: Can I use GPT-4, Claude, or other models?**  
+A: The extension is designed for GitHub Copilot's models. It uses whatever model GitHub Copilot provides through VS Code's Language Model API. Enterprise customers may have access to additional model options.
+
+**Q: Why can't I choose the model manually?**  
+A: This is by design - GitHub Copilot manages model selection to ensure quality and compliance. The VS Code `vscode.lm` API abstracts the model choice, focusing on capability rather than specific model versions.
+
+### Agent & Architecture
+
+**Q: Is Archi Copilot an AI Agent?**  
+A: It's best described as a **domain-specialized chat participant** with memory - not a fully autonomous agent. Here's the distinction:
+
+| Capability | Archi Copilot | True AI Agent |
+|------------|---------------|---------------|
+| Responds to prompts | ✅ | ✅ |
+| Has domain knowledge | ✅ | ✅ |
+| Maintains context | ✅ | ✅ |
+| Takes actions (save files) | ✅ Limited | ✅ Full |
+| Plans multi-step tasks | ❌ | ✅ |
+| Uses tools dynamically | ❌ | ✅ |
+| Self-corrects in loops | ❌ | ✅ |
+
+**Q: Can Archi Copilot execute commands or modify code?**  
+A: Currently, it can only save responses as decisions or insights. It doesn't autonomously execute terminal commands, modify source code, or call external APIs. This is intentional for safety and predictability in enterprise environments.
+
+**Q: Will Archi Copilot become a full agent?**  
+A: Potentially! VS Code is developing "Agent Mode" capabilities for Copilot. Future versions could leverage this for autonomous multi-step tasks like analyzing codebases, creating tickets, or updating documentation.
+
+### Troubleshooting
+
+**Q: `@archi` doesn't appear in chat suggestions?**  
+A: Reload VS Code window (`Cmd+Shift+P` → "Reload Window"). Make sure the extension compiled successfully with `npm run compile`.
+
+**Q: Responses are generic and don't reflect my context?**  
+A: Check that `architecture_memory/` folder exists in your workspace and contains populated markdown files. Run `@archi /projects` to verify projects are detected.
+
+**Q: The Admin Dashboard shows empty dropdowns?**  
+A: Ensure the `architecture_memory/projects/` folder contains at least one project subfolder with markdown files.
+
+**Q: Confluence integration isn't working?**  
+A: Verify your settings in VS Code: `baseUrl`, `spaceKey`, `username`, and `apiToken` must all be configured. Test your API token at [Atlassian API Tokens](https://id.atlassian.com/manage-profile/security/api-tokens).
 
 ---
 
