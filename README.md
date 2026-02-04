@@ -1,8 +1,14 @@
 # 🧠 Archi Copilot
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![VS Code](https://img.shields.io/badge/VS%20Code-Extension-blue.svg)](https://code.visualstudio.com/)
+[![GitHub Copilot](https://img.shields.io/badge/GitHub%20Copilot-Chat%20Participant-purple.svg)](https://github.com/features/copilot)
+
 **Architecture Decision Support System - Powered by GitHub Copilot Chat**
 
 An AI assistant for enterprise architects that **integrates directly into Copilot Chat** - just type `@archi` to start!
+
+> 🎯 **No API keys required** - Uses your existing GitHub Copilot subscription
 
 ---
 
@@ -170,21 +176,19 @@ architecture_memory/
 ├── organization/            # Organization-wide context (applies to all projects)
 │   ├── principles.md        # Architecture principles
 │   ├── standards.md         # Technology standards/radar
+│   ├── governance.md        # CAB/ARB processes
 │   └── glossary.md          # Domain terminology
 ├── projects/                # Project-specific context
-│   ├── loyalty/             # Example: Loyalty platform project
-│   │   ├── context.md       # Project overview, stakeholders
-│   │   ├── capabilities.md  # Business capability model
-│   │   ├── constraints.md   # Project constraints
-│   │   ├── decisions.md     # Decision log
-│   │   ├── tech_debt.md     # Technical debt register
-│   │   ├── roadmap.md       # Project roadmap
-│   │   ├── risks.md         # Risk register
-│   │   └── politics.md      # Stakeholder dynamics
-│   ├── payments/            # Another project
-│   │   └── ...
-│   └── mobile-app/          # Yet another project
-│       └── ...
+│   └── sample-ecommerce/    # Example: E-commerce modernization project
+│       ├── context.md       # Project overview, stakeholders
+│       ├── capabilities.md  # Business capability model
+│       ├── constraints.md   # Project constraints
+│       ├── decisions.md     # Decision log
+│       ├── tech_debt.md     # Technical debt register
+│       ├── roadmap.md       # Project roadmap
+│       ├── risks.md         # Risk register
+│       ├── politics.md      # Stakeholder dynamics (confidential)
+│       └── glossary.md      # Project-specific terms
 ├── decisions/               # Saved ADRs (grows over time)
 ├── insights/                # Saved insights
 └── politics/                # Political notes
@@ -200,7 +204,7 @@ Switch between projects using slash commands in chat:
 Or set the default project in VS Code settings:
 ```json
 {
-  "archi-copilot.activeProject": "loyalty"
+  "archi-copilot.activeProject": "sample-ecommerce"
 }
 ```
 
@@ -431,11 +435,42 @@ This tool is designed for **Principal/Enterprise Architects** dealing with:
 
 ---
 
+## 🤝 Contributing
+
+Contributions are welcome! Here's how you can help:
+
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
+
+### Ideas for Contributions
+
+- Additional slash commands for specific architecture patterns
+- Templates for different frameworks (TOGAF, Zachman, C4)
+- Integration with other documentation platforms
+- Improved Admin Dashboard features
+- Better prompt engineering for specific domains
+
+---
+
+## 🐛 Issues & Feature Requests
+
+Found a bug or have a feature idea? [Open an issue](../../issues) on GitHub!
+
+---
+
 ## 📝 License
 
-MIT License - Feel free to customize for your organization!
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## ⭐ Star History
+
+If you find this project useful, please consider giving it a star! It helps others discover the project.
 
 ---
 
 *Built with ❤️ for architects who want AI assistance without extra subscriptions.*
-# archi-copilot
