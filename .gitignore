@@ -1,0 +1,25 @@
+# Node modules
+node_modules/
+
+# Build output
+out/
+dist/
+*.vsix
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Secrets (never commit!)
+.env
+.env.local
+.secrets

@@ -1,0 +1,164 @@
+{
+  "name": "archi-copilot",
+  "displayName": "Archi Copilot",
+  "description": "Architecture Decision Support System powered by GitHub Copilot",
+  "version": "1.0.0",
+  "publisher": "archi-copilot",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Chat",
+    "Machine Learning"
+  ],
+  "keywords": [
+    "architecture",
+    "TOGAF",
+    "decisions",
+    "ADR",
+    "copilot",
+    "chat"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "chatParticipants": [
+      {
+        "id": "archi-copilot.archi",
+        "fullName": "Archi Copilot",
+        "name": "archi",
+        "description": "Architecture Decision Support - Ask questions, make decisions, generate ADRs",
+        "isSticky": true,
+        "commands": [
+          {
+            "name": "decision",
+            "description": "Make an architecture decision with structured analysis"
+          },
+          {
+            "name": "adr",
+            "description": "Generate an Architecture Decision Record"
+          },
+          {
+            "name": "review",
+            "description": "Review a proposal or design"
+          },
+          {
+            "name": "risks",
+            "description": "Identify and analyze risks"
+          },
+          {
+            "name": "stakeholder",
+            "description": "Prepare stakeholder communication"
+          },
+          {
+            "name": "challenge",
+            "description": "Challenge an assumption or design"
+          },
+          {
+            "name": "techdebt",
+            "description": "Analyze technical debt"
+          },
+          {
+            "name": "backlog",
+            "description": "Prioritize architecture backlog items"
+          },
+          {
+            "name": "milestone",
+            "description": "Plan architecture milestones"
+          },
+          {
+            "name": "saveDecision",
+            "description": "Save last response as an Architecture Decision"
+          },
+          {
+            "name": "saveInsight",
+            "description": "Save last response as an Insight"
+          },
+          {
+            "name": "project",
+            "description": "Switch to a different project context"
+          },
+          {
+            "name": "projects",
+            "description": "List available projects"
+          },
+          {
+            "name": "admin",
+            "description": "Open the Admin Dashboard to edit project content"
+          }
+        ]
+      }
+    ],
+    "configuration": {
+      "title": "Archi Copilot",
+      "properties": {
+        "archi-copilot.activeProject": {
+          "type": "string",
+          "default": "loyalty",
+          "description": "Active project for architecture context (folder name under architecture_memory/projects/)"
+        },
+        "archi-copilot.confluence.baseUrl": {
+          "type": "string",
+          "default": "",
+          "description": "Confluence base URL (e.g., https://yourcompany.atlassian.net)"
+        },
+        "archi-copilot.confluence.spaceKey": {
+          "type": "string",
+          "default": "",
+          "description": "Confluence space key to read architecture documentation from"
+        },
+        "archi-copilot.confluence.username": {
+          "type": "string",
+          "default": "",
+          "description": "Confluence username (email) for authentication"
+        },
+        "archi-copilot.confluence.apiToken": {
+          "type": "string",
+          "default": "",
+          "description": "Confluence API token (generate at https://id.atlassian.com/manage-profile/security/api-tokens)"
+        },
+        "archi-copilot.confluence.parentPageId": {
+          "type": "string",
+          "default": "",
+          "description": "Optional: Only fetch pages under this parent page ID"
+        },
+        "archi-copilot.confluence.labels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Optional: Only fetch pages with these labels (e.g., ['architecture', 'adr'])"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "archi-copilot.saveDecision",
+        "title": "🧠 Archi Copilot: Save as Decision"
+      },
+      {
+        "command": "archi-copilot.saveInsight",
+        "title": "🧠 Archi Copilot: Save as Insight"
+      },
+      {
+        "command": "archi-copilot.openAdmin",
+        "title": "🧠 Archi Copilot: Open Admin Dashboard"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.90.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "typescript": "^5.3.0"
+  }
+}
