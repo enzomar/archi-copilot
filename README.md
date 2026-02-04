@@ -474,3 +474,4 @@ If you find this project useful, please consider giving it a star! It helps othe
 ---
 
 *Built with ❤️ for architects who want AI assistance without extra subscriptions.*
+# archi-copilot
